@@ -1,0 +1,18 @@
+// sort arr using temp stack
+
+
+// function sort(arr){
+//     let stack=[]
+//     while(arr.length){
+//         let curr = arr.pop()
+//         while(stack.length&&stack[stack.length-1]<curr){
+//             arr.push(stack.pop())
+//         }
+//         stack.push(curr)
+//     }
+//     while(stack.length){
+//         arr.push(stack.pop())
+//     }
+//     return arr
+// }
+// console.log(sort([4,3,5,7,6,2,1,7,8,9]))

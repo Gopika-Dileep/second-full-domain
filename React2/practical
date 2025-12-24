@@ -1,0 +1,2121 @@
+// --------------------------------------React.memo---------------------------------
+
+// import React,{useState} from 'react'
+
+// function App(){
+
+//     const [ count,setCount] = useState(0)
+//     const [num,setNum] = useState(0)
+
+//     return(
+//         <>
+//         <button onClick={()=>setCount(count+1)}>+</button>
+//         <p>Count:{count}</p>
+//         <button onClick={()=>setNum(num+1)}>++</button>
+//         <Child number ={num}/>
+//         </>
+//     )
+// }
+
+// const Child = React.memo(({num})=>{
+//     console.log("child renderd")
+
+//     return(
+//         <p>Count:{num}</p>
+//     )
+// })
+
+// export default App
+
+
+
+
+
+// -------------------------------------------use memo-----------------------------------------------
+
+// import React ,{useState,useMemo} from 'react'
+
+// function App(){
+//     const [count,setCount] = useState(0)
+//     const [num,setNum] = useState(1)
+
+//     return (
+//         <>
+//         <button onClick={()=>setCount(count+1)}>+</button>
+//         <p>Count={count}</p>
+//         <button onClick={()=>setNum(num+1)}>++</button>
+//         <Child number = {num}/>
+//         </>
+//     )
+// }
+
+// function Child({number}){
+//     const sqaure=useMemo(()=>{
+//         console.log("square")
+//         return number*number
+//     },[number])
+
+//     return(
+//         <p>squre:{sqaure}</p>
+//     )
+// }
+
+
+
+
+// export default App
+
+
+
+// -------------------------------------------usecontext-----------------------------------------
+
+// -----App--
+
+// import { createContext,useContext } from "react";
+// import Parent from "./parent";
+
+// export const  userContext =  createContext()
+// function App(){
+//       let name = "shamnad"
+//       return(
+//         <>
+//         <userContext.Provider value={name}>
+//             <Parent/>
+//         </userContext.Provider>
+//         </>
+//       )
+// }
+
+// export default App
+
+
+// ----Parent--
+
+// import Child from "./Child"
+
+
+// function Parent(){
+// return (
+//     <Child/>
+// )
+// }
+
+// export default Parent
+
+
+// ------Child----
+
+// import { useContext } from "react"
+// import { userContext } from "./App"
+
+// function Child(){
+//   let user = useContext(userContext)
+//     return (
+ 
+//         <p>name :{user}</p>
+//     )
+// }
+
+// export default Child
+
+// ----------------------------------usecontext in single component------
+
+// import React, { createContext, useContext } from "react";
+
+// // Step 1: Create the Context
+// const UserContext = createContext(); // This creates the context
+
+// // Step 2: Create the main App component
+// function App() {
+//   const username = "Gopika"; // Data you want to share
+
+//   return (
+//     // Step 3: Wrap the components with the Provider and pass the value
+//     <UserContext.Provider value={username}>
+//       <Parent />
+//     </UserContext.Provider>
+//   );
+// }
+
+// // Step 4: Intermediate component (just to show nesting)
+// function Parent() {
+//   return <Child />;
+// }
+
+// // Step 5: Child component that uses the context value
+// function Child() {
+//   // Using useContext to access the value from UserContext
+//   const user = useContext(UserContext);
+
+//   return <h1>Hello, {user}!</h1>;
+// }
+
+// export default App;
+
+
+// -----------------------------------usecontext counter
+// CounterContext.js
+// import { createContext,useContext } from "react";
+
+//  const CounterContext = createContext(0);
+
+// export default function App() {
+//   return (
+//     <CounterContext.Provider value={5}>
+//       <Child />
+//     </CounterContext.Provider>
+//   );
+// }
+
+// function Child() {
+//   return <GrandChild />;
+// }
+
+// function GrandChild() {
+//   const value = useContext(CounterContext);
+//   return <h1>Counter value: {value}</h1>;
+// }
+
+
+
+// ---------------------------------------usereducer(in a single component)---------------------
+
+// import { useReducer } from "react"
+
+// const initialState = {count:0}
+
+// function reducer(state,action){
+//     if(action.type=='increment'){
+//         return {count:state.count+1}
+
+//     }else if(action.type=='decrement'){
+//         return {count:state.count-1}
+//     }else{
+//         return state
+//     }
+
+// }
+
+// function App(){
+//   const [state,dispatch] = useReducer(reducer,initialState)
+
+//   return(
+//     <>
+//     <p>count:{state.count}</p>
+//     <button onClick={()=>dispatch({type:'increment'})}>+</button>
+//     <button onClick={()=>dispatch({type:"decrement"})}>-</button>
+//     </>
+//   )
+// }
+
+// export default App
+
+
+// ----------------------------usereducer in defernet component
+
+// ----app
+
+// import { useReducer } from "react"
+
+// import { initialState, reducer } from "./ReducerComponent.jsx"
+
+
+// function App(){
+//   const [state,dispatch] = useReducer(reducer,initialState)
+
+//   return(
+//     <>
+//     <p>count:{state.count}</p>
+//     <button onClick={()=>dispatch({type:'increment'})}>+</button>
+//     <button onClick={()=>dispatch({type:"decrement"})}>-</button>
+//     </>
+//   )
+// }
+
+// export default App
+
+// ----reducercomponent
+
+// export const initialState = {count:0}
+
+// export function reducer(state,action){
+//     if(action.type=='increment'){
+//         return {count:state.count+1}
+
+//     }else if(action.type=='decrement'){
+//         return {count:state.count-1}
+//     }else{
+//         return state
+//     }
+
+// }
+
+
+
+
+// ---------------------------------------------------hoc--------------------------------------------
+
+
+// sample.jsx 
+
+// import React from "react";
+
+// function Sample(Component){
+
+//     return function Modified(){
+//         return (
+//             <div>
+//                 <p>hello</p>
+//                 <Component/>
+//             </div>
+//         )
+//     }
+// }
+
+// export default Sample
+
+
+
+// OriginalComponent.jsx
+
+// import React from 'react'
+
+// function OriginalComponent(){
+//     return (
+//         <p>i am original component</p>
+//     )
+// }
+
+// export default OriginalComponent
+
+
+
+// app.jsx
+
+
+// import React from 'react'
+// import Sample from './Sample'
+// import OriginalComponent from './OriginalComponent'
+
+// const ModifiedComponent= Sample(OriginalComponent)
+// function App(){
+//     return(
+//         <div>
+//             <ModifiedComponent/>
+
+//         </div>
+//     )
+
+// }
+
+// export default App
+
+
+
+
+// -----------------------------------fecthing data with useefect-------------------------------------
+
+// import React, { useEffect, useState } from "react";
+
+// function UserList() {
+//   const [users, setUsers] = useState([]); // state to store data
+
+//   useEffect(() => {
+//     // This runs once when the component first mounts
+//     fetch("https://jsonplaceholder.typicode.com/users")
+//       .then((response) => response.json())
+//       .then((data) => setUsers(data))
+//       .catch((error) => console.error("Error fetching users:", error));
+//   }, []); // empty dependency array → runs only once
+
+//   return (
+//     <div>
+//       <h2>User List</h2>
+//       <ul>
+//         {users.map((user) => (
+//           <li key={user.id}>{user.name}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// export default UserList;
+
+
+// ------------------------------------uses of useref 
+
+// Fetching data from an API
+
+// Updating the browser title
+
+// Setting a timer
+
+// Listening for window resize events
+
+// Saving data to local storage
+
+// useEffect = “Do something when something changes.”
+
+
+// -----------------🧠 What is useRef?
+
+// useRef is a React Hook that lets you directly access a 
+// DOM element or store a value that doesn’t cause re-rendering when it changes.
+
+
+
+
+
+
+
+
+
+// ----------------------------------redux
+
+// // counterSlice.js
+
+// import { createSlice } from "@reduxjs/toolkit";
+
+// const counterSlice = createSlice({
+//   name: "counter",
+//   initialState: { value: 0 },
+//   reducers: {
+//     increment: (state) => {
+//       state.value += 1;
+//     },
+//     decrement: (state) => {
+//       state.value -= 1;
+//     }
+//   }
+// });
+
+// export const { increment, decrement } = counterSlice.actions;
+// export default counterSlice.reducer;
+
+
+// // store.js
+
+// import { configureStore } from "@reduxjs/toolkit";
+// import counterReducer from "./counterSlice";
+
+// export const store = configureStore({
+//   reducer: {
+//     counter: counterReducer
+//   }
+// });
+
+
+
+// // index.js
+
+// import React from "react";
+// import ReactDOM from "react-dom/client";
+// import { Provider } from "react-redux";
+// import App from "./App";
+// import { store } from "./store";
+
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(
+//   <Provider store={store}>
+//     <App />
+//   </Provider>
+// );
+
+
+// // App.js
+
+// import React from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import { increment, decrement } from "./counterSlice";
+
+// function App() {
+//   const count = useSelector((state) => state.counter.value);
+//   const dispatch = useDispatch();
+
+//   return (
+//     <div>
+//       <h1>Count: {count}</h1>
+//       <button onClick={() => dispatch(increment())}>+</button>
+//       <button onClick={() => dispatch(decrement())}>-</button>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+
+
+// -------------------------------------combine reducers example --------------------------------------------------
+
+// counterSlice.js
+
+// import { createSlice } from '@reduxjs/toolkit'
+
+// const counterSlice = createSlice({
+//   name: 'counter',
+//   initialState: { value: 0 },
+//   reducers: {
+//     increment: (state) => { state.value += 1 },
+//     decrement: (state) => { state.value -= 1 }
+//   }
+// })
+
+// export const { increment, decrement } = counterSlice.actions
+// export default counterSlice.reducer
+
+
+// userSlice.js
+
+// import { createSlice } from '@reduxjs/toolkit'
+
+// const userSlice = createSlice({
+//   name: 'user',
+//   initialState: { name: '', age: null },
+//   reducers: {
+//     setUser: (state, action) => {
+//       state.name = action.payload.name
+//       state.age = action.payload.age
+//     }
+//   }
+// })
+
+// export const { setUser } = userSlice.actions
+// export default userSlice.reducer
+
+
+// rootreducer.js
+
+// import { combineReducers } from 'redux'
+// import counterReducer from './counterSlice'
+// import userReducer from './userSlice'
+
+// const rootReducer = combineReducers({
+//   counter: counterReducer,
+//   user: userReducer
+// })
+
+// export default rootReducer
+
+
+// store.js
+
+// import { configureStore } from '@reduxjs/toolkit'
+// import rootReducer from './rootReducer' // the file where combineReducers is done
+
+// const store = configureStore({
+//   reducer: rootReducer
+// })
+
+// export default store
+
+
+// accessing state
+
+// const count = useSelector((state) => state.counter.value)
+// const user = useSelector((state) => state.user.name)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ---------------------------------------------------------Hooks--------------------------------------------------------------
+
+
+// -------------------------useState-----------------------
+
+// import { useState  } from "react";
+
+
+// function App(){
+//     const [count,setCount] = useState(0)
+
+//     function addcount(){
+//         setCount(count+1)
+//     }
+//     function reset(){
+//         setCount(0)
+//     }
+ 
+//     return (
+//         <>
+//         <p>count:{count}</p>
+//         <button onClick={addcount}>+</button> 
+//         <button onClick={reset}>Reset</button>
+//         <button onClick={()=>setCount(count-1)}>-</button>
+//         </>
+//     )
+
+// }
+// export default App
+
+
+
+
+// ----------------------------useEffect---------------------------
+
+// import { useEffect } from "react";
+// import { useState  } from "react";
+
+
+// function App(){
+//     const [count,setCount] = useState(0)
+
+//     function addcount(){
+//         setCount(count+1)
+//     }
+
+//     useEffect(()=>{
+//         window.title = `you have clicked ${count} times`
+//     },[count])
+ 
+//     return (
+//         <>
+//         <p>you have clicked {count} times</p>
+//         <button onClick={addcount}>+</button>
+//         </>
+//     )
+
+// }
+
+// export default App
+
+
+
+// ----------------------------useref-------------------------
+
+// focus input while first loading 
+
+
+// import React from "react";
+// import { useEffect } from "react";
+// import { useRef } from "react";
+
+// function App(){
+//     const inputref = useRef()
+
+//    useEffect(()=>{
+//        inputref.current.focus()
+//    })
+
+//     return(
+//         <>
+//         <h1>Hi there</h1>
+//         <input ref={inputref} type="text"/>
+//         </>
+//     )
+// }
+
+// export default App
+
+
+// -----------normal useref
+
+
+// import React from "react";
+// import { useRef } from "react";
+
+// function App(){
+//     const inputref = useRef()
+
+//     function handleref(){
+//         inputref.current.focus()
+//     }
+
+//     return(
+//         <>
+//         <input ref={inputref} type="text"/>
+//         <button onClick={handleref}>ref</button>
+        
+//         </>
+//     )
+// }
+
+// export default App
+
+
+// -------------------------------------------usecontext-----------------------------------------
+
+// -----App--
+
+// import { createContext,useContext } from "react";
+// import Parent from "./parent";
+
+// export const  userContext =  createContext()
+// function App(){
+//       let name = "shamnad"
+//       return(
+//         <>
+//         <userContext.Provider value={name}>
+//             <Parent/>
+//         </userContext.Provider>
+//         </>
+//       )
+// }
+
+// export default App
+
+
+// ----Parent--
+
+// import Child from "./Child"
+
+
+// function Parent(){
+// return (
+//     <Child/>
+// )
+// }
+
+// export default Parent
+
+
+// ------Child----
+
+// import { useContext } from "react"
+// import { userContext } from "./App"
+
+// function Child(){
+//   let user = useContext(userContext)
+//     return (
+ 
+//         <p>name :{user}</p>
+//     )
+// }
+
+// export default Child
+
+
+// ------------------------------------useReducer---------
+
+// ---------------reducercomponent.jsx
+
+// export const initialState = {count:0}
+
+// export function reducer(state,action){
+//     if(action.type==='increment'){
+//         return {count:state.count+1}
+//     }else if(action.type==='decrement'){
+//         return {count:state.count-1}
+//     }else if(action.type==='reset'){
+//         return{count:0}
+//     }else{
+//         return state
+//     }
+
+// }
+
+// ---------------app.jsx
+
+// import React, { useReducer } from "react";
+// import { initialState, reducer } from "./ReducerComponent";
+
+// function App(){
+//     const [state,dispatch] = useReducer(reducer,initialState)
+
+//     function addcount(){
+//         dispatch({type:"increment"})
+//     }
+
+//     function subcount(){
+//         dispatch({type:"decrement"})
+//     }
+
+//     return(
+//         <>
+//         <p>count:{state.count}</p>
+//         <button onClick={addcount}>+</button>
+//         <button onClick={()=>dispatch({type:"reset"})}>reset</button>
+//         <button onClick={subcount}>-</button>
+//         </>
+//     )
+
+// }
+
+// export default App
+
+
+
+
+// -----------------------------------useMemo-----------------------
+
+// import React, { useMemo, useState } from "react";
+
+// function App(){
+//     const [count,setcount]=useState(0)
+//     const [num,setnum] = useState(0)
+
+//     return(
+//         <>
+//         <p>count:{count}</p>
+//         <button onClick={()=>setcount(count+1)}>+</button>
+//         <button onClick={()=>setnum(num+1)}>++</button>
+//         <Child num={num}/>
+//         </>
+//     )
+// }
+
+
+// function Child({num}){
+//     const square=useMemo(()=>{
+//         console.log("square")
+//         return num*num
+//     },[num])
+
+//     return (
+//         <p>number:{num} </p>
+//     )
+// }
+
+
+// export default App
+
+
+
+// -----------------------------custom Hook
+
+// import useToggle from "./useToggle";
+
+
+// function App(){
+//     const [toggle,settoggle] = useToggle()
+
+//     return(
+//         <>
+//         <p>open:{toggle?"open":"close"}</p>
+//         <button onClick={settoggle}>Click</button>
+//         </>
+//     )
+// }
+
+// export default App
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------props passing (passing data from parent to child--------------------)
+
+// app.jsx
+// import Student from './Student'
+
+// function App(){
+//     return(
+//         <>
+//         <Student name="gopika" age={21} isstudent={false}/>
+//         <Student name="shamnad" age={21} isstudent={true}/>
+//         </>
+//     )
+// }
+
+// export default App
+
+// student.jsx
+// function Student(props){
+//     return(
+//         <>
+//         <p>name:{props.name}</p>
+//         <p>age:{props.age}</p>
+//         <p>isstudent:{props.isstudent?"yes":"no"}</p>
+//         </>
+//     )
+
+// }
+
+// export default Student
+
+
+// ------------------------------------passing data from child to parent---------
+
+// App.jsx
+// import { useState } from "react"
+// import Child from './Child'
+// function App(){
+//     const [childData , setChildData] = useState('')
+//     function datafromchild(data){
+//         setChildData(data)
+//     }
+
+//     return (
+//         <>
+//         <h2>Parent Component</h2>
+//         <p>datafromchild:{childData}</p>
+//         <Child onsenddata={datafromchild}/>
+//         </>
+//     )
+      
+
+// }
+
+// export default App
+
+
+
+// Child.jsx
+// function Child ({onsenddata}){
+//     function setdata(){
+//         onsenddata("hello from child")
+//     }
+//     return (
+//         <>
+//         <h2>Child Component</h2>
+//         <button onClick={setdata}>click</button>
+//         </>
+//     )
+
+// }
+
+// export default Child
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------------------------
+// --------------------------------------React.memo---------------------------------
+
+// import React,{useState} from 'react'
+
+// function App(){
+
+//     const [ count,setCount] = useState(0)
+//     const [num,setNum] = useState(0)
+
+//     return(
+//         <>
+//         <button onClick={()=>setCount(count+1)}>+</button>
+//         <p>Count:{count}</p>
+//         <button onClick={()=>setNum(num+1)}>++</button>
+//         <Child number ={num}/>
+//         </>
+//     )
+// }
+
+// const Child = React.memo(({num})=>{
+//     console.log("child renderd")
+
+//     return(
+//         <p>Count:{num}</p>
+//     )
+// })
+
+// export default App
+
+
+
+// ---------------------------------------------usememo
+
+
+// import React, { useMemo, useState } from "react";
+
+// function App(){
+// const [number, setNumber] = useState(2)
+// const [count,setCount]  = useState(0)
+
+// const result = useMemo(()=>{
+//     console.log("heavycalculation")
+//     return number*number
+// },[number])
+
+// return(
+//     <>
+//     <h2>heavy calculation</h2>
+//     <p>result:{result}</p>
+//     <button onClick={()=>setNumber(number+1)}>Number</button>
+//     <p>count:{count}</p>
+//     <button onClick={()=>setCount(count+1)}>button</button>
+//     </>
+// )
+
+// }
+
+// export default App
+
+
+// ----------------------using use memo array sum
+// import { useMemo, useState } from "react";
+
+// function App(){
+//     const [num,setNum] = useState([])
+
+//     const result = useMemo(()=>{
+//         console.log("calculation")
+//         return num.reduce((a,b)=>a+b,0)
+//     },[num])
+
+//     function handleClick(){
+//         setNum((prev)=>[...prev,prev.length])
+//     }
+
+//     return(
+//         <>
+//         <p>result:{result}</p>
+//         <p>num:{num}</p>
+//         <button onClick={handleClick}>click</button>
+//         </>
+//     )
+
+// }
+
+// export default App
+
+
+// --------------------------------usecallback example
+// App.jsx
+// import React, { useCallback, useState } from "react";
+// import Child from "./Child";
+
+// function App(){
+
+//     const [count,setcount] = useState(0)
+//     const [message,setMessage] =useState("")
+//     console.log("parent rendered")
+
+
+//     function handleclick(){
+//         setcount(count+1)
+//     }
+//     const handlemessage = useCallback((data)=>{
+//         console.log("parentftn")
+//         setMessage(data)
+//     },[])
+//     return(
+//         <>
+//         <p>count:{count}</p>
+//         <button onClick={handleclick}>click</button>
+//         <p>message:{message}</p>
+//         <Child handlemessage ={handlemessage}/>
+//         </>
+//     )
+// }
+// export default App
+
+// child.jsx
+// import React from "react"
+
+// function Child({handlemessage}){
+//     console.log("child renderd")
+
+
+//     function handleChange(e){
+//         console.log("childftn")
+//         handlemessage(e.target.value)
+//     }
+
+//     return(
+//         <>
+//         <input type="text" onChange={handleChange}/>
+//         </>
+//     )
+
+// }
+// export default React.memo(Child)
+
+
+// ------------usecallback with slight change in child.jsx(app.jsx is same)
+
+// Child.jsx
+// import React, { useState } from "react"
+
+// function Child({handlemessage}){
+//     console.log("child renderd")
+//     const [text,setText] = useState("")
+
+
+
+//     function handleChange(e){
+//         console.log("childftn")
+//         setText(e.target.value)
+//         handlemessage(e.target.value)
+//     }
+
+//     return(
+//         <>
+//         <input type="text" value={text} onChange={handleChange}/>
+//         </>
+//     )
+
+// }
+// export default React.memo(Child)
+
+
+
+
+
+
+// ------------------example using usecallback and usememo
+
+// import React, { useCallback, useMemo, useState } from "react";
+
+// function App(){
+//     const [num,setNum] = useState([])
+//     const [count,setcount] = useState(0)
+
+//     function handlecount(){
+//         console.log("count ftn")
+//         setcount(count+1)
+//     }
+
+//     const handlenum = useCallback(()=>{
+//         console.log("num ftn")
+//         setNum((prev)=>[...prev,prev.length])
+//     },[])
+
+//     const total =useMemo(()=>{
+//         console.log("calculation")
+//         return num.reduce((a,b)=>a+b,0)
+//     },[num])
+
+//    return (
+//     <>
+//     <p>total:{total}</p> 
+//     <button onClick={handlenum}>Click</button>
+//     <p>count:{count}</p>
+//     <button onClick={handlecount}> Click2</button>
+//     </>
+//    )
+// }
+
+// export default App
+// -------------------------------one example
+
+// this example is using USECALLBACK REACTMEMO and also it is PASSING DATA FROM CHILD TO PARENT
+// app.jsx
+// import { useCallback, useState } from "react";
+// import Child from "./Child";
+
+// function App(){
+//     const [count,setCount] = useState(0)
+//     const [num,setNum] = useState(0)
+
+//     function handlecount(){
+//         setCount(count+1)
+//     }
+//    const handlenum = useCallback((data)=>{
+//     console.log("parent")
+//         setNum(data)
+//     },[])
+
+//     return(
+//         <>
+//         <h2>Parent component</h2>
+//         <p>count:{count}</p>
+//         <button onClick={handlecount}>click</button>
+//         <Child num={num} handlenum={handlenum}/>
+  
+//         </>
+//     )
+// }
+
+// export default App
+// Child.jsx
+// import React from "react"
+
+// function Child({num , handlenum}){
+//     console.log("child renderd")
+//     function handleftn(){
+//         console.log("child ftn")
+//         handlenum(num+1)
+//     }
+//     return(
+//         <>
+//         <h2>Child component</h2>
+//         <p>childnum:{num}</p>
+//         <button onClick={handleftn}>click2</button>
+//         </>
+//     )
+// }
+
+// export default React.memo(Child)
+
+
+// -----------------------------usereducer
+// import { useReducer } from "react";
+
+// const initialState={count:0}
+
+// function reducer(state,action){
+//     switch (action.type){
+//         case "increment":
+//             return {count:state.count+1}
+//         case "decrement":
+//             return {count:state.count-1}
+//         case 'reset':
+//             return initialState
+//         default:
+//             return state
+//     }
+// }
+// function App(){
+//     const [state,dispatch] = useReducer(reducer,initialState)
+
+//     return (
+//         <>
+//         <p>count:{state.count}</p>
+//         <button onClick={()=>dispatch({type:'increment'})}>+</button>
+//         <button onClick={()=>dispatch({type:'decrement'})}>-</button>
+//         <button onClick={()=>dispatch({type:'reset'})}>0</button>
+//         </>
+//     )
+// }
+
+// export default App
+
+// ----------------------------usereducer with payload
+// import React, { useReducer } from "react";
+
+// const initialState = { count: 0 };
+
+// function reducer(state, action) {
+//   switch (action.type) {
+//     case "increment":
+//       return { count: state.count + 1 };
+//     case "decrement":
+//       return { count: state.count - 1 };
+//     case "reset":
+//       return initialState;
+//     case "set":
+//       return { count: action.payload };
+//     default:
+//       return state;
+//   }
+// }
+
+// export default function Counter() {
+//   const [state, dispatch] = useReducer(reducer, initialState);
+
+//   return (
+//     <div>
+//       <h2>Count: {state.count}</h2>
+
+//       <button onClick={() => dispatch({ type: "increment" })}>
+//         +1
+//       </button>
+
+//       <button onClick={() => dispatch({ type: "decrement" })}>
+//         -1
+//       </button>
+
+//       <button onClick={() => dispatch({ type: "reset" })}>
+//         Reset
+//       </button>
+
+//       <button onClick={() => dispatch({ type: "set", payload: 10 })}>
+//         Set to 10
+//       </button>
+//     </div>
+//   );
+// }
+
+
+// ----------------------usereducer in diferent coimport { useReducer } from "react";
+// app.jsx
+// import { useReducer } from "react";
+// import { inititalState,reducer } from "./ReducerComponent";
+
+// function App(){
+//     const [state,dispatch] = useReducer(reducer,inititalState)
+
+//     return(
+//         <>
+//         <p>count:{state.count}</p>
+//         <button onClick={()=>dispatch({type:'increment'})}>+</button>
+//         <button onClick={()=>dispatch({type:'decrement'})}>-</button>
+//         </>
+//     )
+// }
+
+// export default Appmponent
+
+// ReducerComponent.jsx
+// export const inititalState={count:0}
+
+// export function reducer(state,action){
+//     switch (action.type){
+//         case 'increment':
+//             return {count:state.count+1}
+//         case 'decrement':
+//             return {count:state.count-1}
+//         default:
+//             return state
+//     }
+// }
+
+
+
+// ---------------------------------------------------onchange questions ---------------------------------------
+
+// ----------------------onchange text
+
+
+// import { useState } from "react";
+
+// function App(){
+//     const [text,setText] = useState('')
+
+//     function handlesubmit(e){
+//         setText(e.target.value)
+//     }
+
+//     return(
+//         <>
+//          <input type='text' onChange={handlesubmit}/>
+//          <p>text:{text}</p>
+//         </>
+//     )
+// }
+
+// export default App
+
+// --------------------------------
+// we can write it in this way also 
+
+// import { useState } from "react";
+
+// function App() {
+//   const [text, setText] = useState("");
+
+//   return (
+//     <div>
+//       <input 
+//         type="text"
+//         onChange={(e) => setText(e.target.value)}
+//       />
+//       <p>You typed: {text}</p>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+// --------------------------------onchange number
+
+// import { useState } from "react";
+
+// function App(){
+//     const [num,setNum] = useState(0)
+
+//     function handlesubmit(e){
+//         setNum(e.target.value)
+//     }
+
+//     return(
+//         <>
+//          <input type='number' onChange={handlesubmit}/>
+//          <p>text:{num}</p>
+//         </>
+//     )
+// }
+
+// export default App
+
+
+// --------------------------------onchange checkbox
+
+// import { useState } from "react";
+
+// function App(){
+//     const [checked,setChecked] = useState(false)
+
+//     function handlesubmit(e){
+//         setChecked(e.target.checked)
+//     }
+//     return(
+//         <>
+//             <input type="checkbox" onChange={handlesubmit}/>
+//             <p>checked:{checked?"yes":"no"}</p>
+//         </>
+//     )
+// }
+
+// export default App
+
+// ----------------------------onchange for radiobutton
+
+// import { useState } from "react";
+
+// function App(){
+//     const [gender,setGender] = useState('')
+
+//     function handlesubmit(e){
+//         setGender(e.target.value)
+//     }
+
+//     return(
+//         <>
+//         <form>
+//         <input type="radio" name="gender" value="male" onChange={handlesubmit} />male
+//         <input type="radio" name="gender" value="female" onChange={handlesubmit}/>female
+//         </form>
+//         <p>selected:{gender}</p>
+//         </>
+//     )
+// }
+
+
+// export default App
+
+
+
+// -----------------------onchange for dropdown--------------
+
+// import { useState } from "react";
+
+// function App(){
+//     const [city,setCity] = useState("")
+
+//     function handlesubmit(e){
+//         setCity(e.target.value)
+//     }
+//     return(
+//         <>
+//         <select  onChange={handlesubmit}>
+//             <option value="">select city</option>
+//             <option value="kochi">kochi</option>
+//             <option value="calicut">calicut</option>
+//             <option value="tvm">tvm</option>
+//         </select>
+//         <p>city:{city}</p>
+//         </>
+//     )
+// }
+
+// export default App
+
+
+// ----------------------------------onchange for multiple inputs 
+
+// import { useState } from "react";
+
+// function App(){
+//     const [form,setForm] = useState({name:"",email:""})
+
+//     function handleChange(e){
+//         setForm({...form,[e.target.name]:e.target.value})
+//     }
+
+//     return(
+//         <>
+//         <p>name</p>
+//         <input name="name" onChange={handleChange}/>
+//         <p>email</p>
+//         <input name="email" onChange={handleChange}/>
+//         <p>name:{form.name}</p>
+//         <p>email:{form.email}</p>
+//         </>
+//     )
+// }
+
+// export default App
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------onsubmit qustions ---------------------------------------------------------
+
+// function App(){
+//     return(
+//         <form onSubmit={(e)=>{
+//             e.preventDefault()
+//             alert("form submited")
+//         }}>
+//             <input type="text"/>
+//             <button type="submit">click</button>
+//         </form>
+//     )
+// }
+
+// export default App
+
+// --------------------------------------------above question with slight variation -------------------------
+// the above question just show an alert when clicking the submit button 
+// but  in this question when clicking the submit button we show the value of the input field on screen 
+
+// import { useState } from "react";
+
+// function App(){
+//     const [name,setName]=useState('')
+//     const [submitname,setsubmitname] = useState('')
+
+//     function handlesubmit(e){
+//         e.preventDefault()
+//         setsubmitname(name)
+//     }
+
+//     function handlechange(e){
+//         setName(e.target.value)
+//     }
+//     return(
+//         <>
+//         <form onSubmit={handlesubmit}>
+//             <input type='text' onChange={handlechange}/>
+//             <button type="submit">click</button>
+//         </form>
+//         <p>name:{name}</p>
+//         <p>Name:{submitname}</p>
+//         </>
+//     )
+// }
+
+// export default App
+
+// -------------------------------------------------onsubmit example forms
+
+// import { useState } from "react";
+
+// function App(){
+//     const [value,setValue] = useState("")
+
+// function handlesubmit(e){
+//     e.preventDefault()
+//     alert('you submited ' + value)
+// }
+// function handlechange(e){
+//     setValue(e.target.value)
+// }
+// return(
+//     <>
+//     <form onSubmit={handlesubmit}>
+//         <input type = "text" value={value} onChange={handlechange}/>
+//         <button type="submit">click</button>
+//     </form>
+//     </>
+// )
+// }
+
+// export default App
+
+
+
+// -------------------------------simple form 
+
+
+// import { useState } from "react";
+
+// function MyForm() {
+//   const [name, setName] = useState("");
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault(); // prevents page reload
+//     console.log("Submitted name:", name);
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input
+//         type="text"
+//         value={name}
+//         onChange={(e) => setName(e.target.value)}
+//         placeholder="Enter your name"
+//       />
+//       <button type="submit">Submit</button>
+//     </form>
+//   );
+// }
+
+// export default MyForm;
+
+
+// -----------------------------Example With Multiple Fields
+
+// import { useState } from "react";
+
+// function SignupForm() {
+//   const [formData, setFormData] = useState({
+//     email: "",
+//     password: "",
+//   });
+
+//   const handleChange = (e) => {
+//     setFormData({
+//       ...formData,
+//       [e.target.name]: e.target.value,
+//     });
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     console.log(formData);
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input
+//         name="email"
+//         type="email"
+//         value={formData.email}
+//         onChange={handleChange}
+//       />
+
+//       <input
+//         name="password"
+//         type="password"
+//         value={formData.password}
+//         onChange={handleChange}
+//       />
+
+//       <button type="submit">Sign Up</button>
+//     </form>
+//   );
+// }
+
+// export default SignupForm;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -------------------------------------------------------------list questions--------------------------------------------
+
+// import React from "react";
+
+// function App(){
+//     const workout =[
+//     "Push-ups",
+//     "Squats",
+//     "Running",
+//     "Planks",
+//     "Jumping Jacks"
+//     ]
+//     return(
+//         <>
+//         <h2>list</h2>
+//         <ul>
+//             {workout.map((item,index)=>(
+//                 <li key={index}>{item}</li>
+//             ))}
+//         </ul>
+//         </>
+//     )
+// }
+
+// export default App
+
+
+// --------------------Want to add new items?
+
+// import { useState } from "react";
+
+// function App(){
+//     const [workout,setworkout]=useState(["Push-ups", "Squats"])
+//     const [newworkout,setnewworkout] = useState('')
+
+//     function addworkout(){
+//         setworkout([...workout,newworkout])
+//         setnewworkout("")
+//     }
+
+//     function handleChange(e){
+//         setnewworkout(e.target.value)
+//     }
+//     return(
+//         <>
+//         <h2>workoutlist</h2>
+//         <ul>
+//             {workout.map((item,index)=>(
+//                 <li key={index}>{item}</li>
+//             ))}
+//         </ul>
+//         <input type="text" value={newworkout} onChange={handleChange}/>
+//         <button onClick={addworkout}>submit</button>
+//         </>
+//     )
+// }
+// export default App
+
+
+
+// ----------------------------------------------toggle questions---------------------------------------------
+
+// ---------------------Toggle boolean using useState
+
+// import { useState } from "react";
+
+// function App(){
+//     const [isOpen,setIsopen] = useState(false)
+
+//     function toggle(){
+//         setIsopen(prev=>!prev)
+
+//     }
+
+//     return(
+//         <>
+//         <button onClick={toggle}>{isOpen?"hide":"show"}</button>
+
+//         {isOpen && <p>this shows only if it is open</p>}
+//         </>
+//     )
+
+// }
+
+// export default App
+
+// -----------------------button on 
+
+// import {  useState } from "react"
+
+
+// function App(){
+//     const [ison,setison] = useState(false)
+
+//     function handleClick(){
+//         setison(!ison)
+//     }
+
+//     return(
+//         <>
+//         <button onClick={handleClick}>{ison?"On":"Off"}</button>
+//         {ison && <p> button is on</p>}
+//         </>
+//     )
+// }
+
+// export default App
+
+
+
+// --------------------------------toggle checkbox
+
+// import { useState } from "react"
+
+// function App(){
+
+//     const [checked,setchecked] = useState(false)
+
+//     function handleChange(e){
+//         setchecked(e.target.checked)
+
+//     }
+
+//     return(
+//         <>
+//         <input type="checkbox" checked={checked} onChange={handleChange}/>
+//         <p>{checked?"on":"off"}</p>
+//         </>
+//     )
+
+// }
+
+// export default App
+
+
+//---------------------------------------------------------------toggle using context--------------------
+
+// ===context/Togglecontext.jsx
+// import { createContext } from "react";
+
+// export const toggleContext = createContext()
+
+// ===app.jsx
+
+// import { useState } from "react";
+// import { toggleContext } from "./context/Togglecontext";
+// import Toggle from "./Toggle";
+
+// function App(){
+//     const [ison,setison] = useState(false)
+//     function handletoggle(){
+//         setison(prev=>!prev)
+//     }
+
+//     return(
+//         <>
+//         <toggleContext.Provider value={{ison,handletoggle}}>
+//             <Toggle/>
+//         </toggleContext.Provider>
+//         </>
+//     )
+// }
+// export default App
+
+// ===Toggle.jsx
+// import { useContext } from "react"
+// import { toggleContext } from "./context/Togglecontext"
+
+// function Toggle(){
+//     const{ison,handletoggle} = useContext(toggleContext)
+//     return(
+//         <>
+//         <p>state:{ison?"On":"Off"}</p>
+//         <button onClick={handletoggle}>click</button>
+//         </>
+//     )
+
+// }
+
+// export default Toggle
+
+// -------------------------------------------------------------
+
+// slight variation from the above question here button and status showing is given in seprate components
+
+
+// ===context/Togglecontext.jsx
+// import { createContext } from "react";
+
+// export const toggleContext = createContext()
+
+// ===App.jsx
+
+// import { useState } from "react";
+// import { toggleContext } from "./context/Togglecontext";
+// import Toggle from "./Toggle";
+// import Child from "./Child";
+
+// function App(){
+//     const [ison,setison] = useState(false)
+//     function handletoggle(){
+//         setison(prev=>!prev)
+//     }
+
+//     return(
+//         <>
+//         <toggleContext.Provider value={{ison,handletoggle}}>
+//             <Toggle/>
+//             <Child/>
+//         </toggleContext.Provider>
+//         </>
+//     )
+// }
+// export default App
+
+
+// // ===Child.jsx (for button)
+// import { useContext } from "react"
+// import { toggleContext } from "./context/Togglecontext"
+
+
+// function Child(){
+//     const {handletoggle} = useContext(toggleContext)
+//     return(
+//         <>
+//         <button onClick={handletoggle}>click</button>
+//         </>
+//     )
+
+// }
+
+// export default Child
+
+// ===Toggle.jsx
+// import { useContext } from "react"
+// import { toggleContext } from "./context/Togglecontext"
+
+// function Toggle(){
+//     const{ison} = useContext(toggleContext)
+//     return(
+//         <>
+//         <p>state:{ison?"On":"Off"}</p>
+//         </>
+//     )
+
+// }
+
+// export default Toggle
+
+
+// -----------------------------------------------practical questions asked in reviews----------------------------------------
+
+
+
+// ----------------------------------------------3rd attempt question(emil)
+
+// toggle checkbox by button click using context, 
+
+// ======context/Togglecontext.jxs
+// import { createContext } from "react";
+
+// export const toggleContext = createContext()
+
+
+
+// ======App.jsx
+// import { useState } from "react"
+// import { toggleContext } from "./context/Togglecontext"
+// import Toggle from "./Toggle"
+// import Button from "./Button"
+
+// function App(){
+
+//     const [checked,setChecked] = useState(false)
+
+//     function handlebutton(){
+//         setChecked(prev=>!prev)
+//     }
+//     function handletoggle(e){
+//         setChecked(e.target.checked)
+//     }
+
+//     return(
+//         <> 
+//         <toggleContext.Provider value={{checked,handlebutton,handletoggle}}>
+//             <Toggle/>
+//             <Button/>
+//         </toggleContext.Provider>
+//         </>
+//     )
+
+
+// }
+
+// export default App
+
+
+
+// ====Toggle.jsx
+// import { useContext } from "react"
+// import { toggleContext } from "./context/Togglecontext"
+
+
+// function Toggle(){
+//     const {checked,handletoggle} = useContext(toggleContext)
+//     return(
+//         <>
+//         <input type="checkbox" checked={checked} onChange={handletoggle}/>
+//         </>
+//     ) 
+// }
+
+// export default Toggle
+
+
+
+// ====Button.jsx
+// import { useContext } from "react"
+// import { toggleContext } from "./context/Togglecontext"
+
+
+// function Button(){
+
+//     const{handlebutton} = useContext(toggleContext)
+//     return(
+//         <>
+//         <button onClick={handlebutton}>click</button>
+//         </>
+//     )
+
+// }
+
+// export default Button
+
+// -----------------------------------------------------5th attempt react question
+
+
+
+// import React, { useState } from "react";
+
+// function TextForm({datafn}) {
+
+
+// 	return (
+// 		<>
+// 			<form>
+// 				<input placeholder="Enter your name" />
+// 				<button type="submit">Submit</button>
+// 			</form>
+// 		</>
+// 	);
+// }
+
+// function Greetings() {
+
+//     const [user,setUser] = useState()
+
+//     function data(datafromchild){
+//         setUser(datafromchild)
+//     }
+
+// 	return (
+// 		<>
+// 			<h1>Hello user</h1>
+// 			<hr />
+// 			<TextForm datafn={data}/>
+// 		</>
+// 	);
+// }
+
+// export default Greetings;
+
+// -----------------------------------------ans------------------
+// import React, { useState } from "react";
+
+// function TextForm({datafn}) {
+
+//     const [value,setValue] = useState('')
+//     function handlesubmit(e){
+//         e.preventDefault()
+//         datafn(value)
+//     }
+//     function handlechange(e){
+//         setValue(e.target.value)
+//     }
+
+//     return (
+//         <>
+//             <form onSubmit={handlesubmit}>
+//                 <input type="text" value={value} placeholder="Enter your name" onChange={handlechange}/>
+//                 <button type="submit">Submit</button>
+//             </form>
+//         </>
+//     );
+// }
+
+// function App() {
+
+//     const [user,setUser] = useState()
+
+//     function data(datafromchild){
+//         setUser(datafromchild)
+//     }
+
+//     return (
+//         <>
+//             <h1>Hello {user?user:"user"}</h1>
+//             <hr />
+//             <TextForm datafn={data}/>
+//         </>
+//     );
+// }
+
+// export default App;
+
+
+
+// --------------------------------------post qa rahul question from anand
+
+// given data in link we need to fetch that data and there should be an input box while searching id's like 1,2,3 etc 
+// for example in the input box i search 7 then click submit button there should show the details of the user with id 7
+
+// import { useState } from "react";
+
+// function App(){
+//     const [userId,setUserId] = useState("")
+//     const [user,setUser] = useState(null)
+//     const [error,setError] = useState("")
+
+//     function getUser(){
+//         setError('')
+//         setUser(null)
+
+//         fetch(`https://dummyjson.com/users/${userId}`)
+//         .then((res)=>{
+//             if(!res.ok){
+//                 throw new Error("user not found")
+//             }
+//             return res.json()
+//         })
+//         .then((data)=>{
+//             setUser(data)
+//         })
+//         .catch((error)=>{
+//             setError(error.message)
+//         })
+//     }
+
+//     function handleChange(e){
+//         setUserId(e.target.value)
+//     }
+
+//     return(
+//         <>
+//         <input type="number" value={userId} onChange={handleChange}/>
+//         <button onClick={getUser}>Submit</button>
+//         {error?{error}:null}
+//         {user?(
+//             <>
+//             <p>useName:{user.firstName} {user.lastName}</p>
+//             <p>adress:{user.address.address}</p>
+//             <p>postalCode:{user.address.postalCode}</p>  
+//             <p>state:{user.address.state}</p>
+//             <p>country:{user.address.country}</p>
+//             </>
+//         ):null}
+//         </>
+//     )
+// }
+
+// export default App
+
+
+
+
+

@@ -1,0 +1,908 @@
+
+//---- create server using  http
+
+// const http = require('http')
+// const server = http.createServer((req,res)=>{
+//     res.write("hello");
+//     res.end()
+// })
+
+// server.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+
+// ------create http server with route---
+
+// const http = require('http')
+// const server = http.createServer((req,res)=>{
+//     if(req.url==='/'&& req.method==="GET"){
+//         res.write("hello");
+//         res.end()
+//     }else{
+//         res.write("not found")
+//         res.end()
+//     }
+// })
+
+// server.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+
+// ----------------------create server using express
+
+// const express = require('express')
+// const app = express()
+
+// app.get('/',(req,res)=>{
+//     res.send("helloooooooo")
+// })
+
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+
+// ---------------------------block post request
+
+// const express = require('express')
+// const app = express()
+
+// app.use((req,res,next)=>{
+//     if(req.method==='POST'){
+//         return res.status(403).json({error:"POST Requeest is not allowed"})
+//     }
+//     next()
+// })
+
+// app.get('/',(req,res)=>{
+//     res.send("helloooo")
+// })
+
+// app.post('/',(req,res)=>{
+//     res.send('hii')
+// })
+
+// app.listen(5000,()=>{
+//     console.log("server is running ")
+// })
+
+
+// -----------------block a specific post request
+// const express = require('express')
+// const app = express()
+
+
+// app.use((req,res,next)=>{
+//     if(req.url==='/' && req.method==='POST'){
+//         return res.status(403).json({error:"post request is not allowed"})
+//     }
+//     next()
+// })
+// app.get('/',(req,res)=>{
+//     res.send("hello")
+// })
+// app.post('/',(req,res)=>{
+//     res.send("hiiii")
+// })
+// app.post('/home',(req,res)=>{
+//      res.send('hehoo')
+// })
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+
+ 
+// ----------------------block domain
+
+// const express = require('express');
+// const app = express();
+
+// app.use((req, res, next) => {
+//     const blockedDomains = ['example.com', 'badsite.com'];
+//     const referer = req.get('referer') || req.get('origin') || '';
+
+//     if (blockedDomains.some(domain => referer.includes(domain))) {
+//         return res.status(403).send('Requests from this domain are blocked.');
+//     }
+//     next();
+// });
+
+// app.get('/', (req, res) => {
+//     res.send('Request allowed!');
+// });
+
+// app.listen(5000, () => console.log('Server running on port 5000'));
+
+
+// ------------------------err handling middleware
+
+// const express = require('express');
+// const app = express();
+
+// app.get('/', (req, res) => {
+//      throw new Error('Something went wrong!'); 
+// });  
+     
+
+// app.use((err, req, res, next) => {
+//     console.log("iam ghere")
+
+//     res.status(err.status || 500).json({
+//         success: false,
+//         message: err.message || 'Internal Server Error',
+//     });
+// });
+
+
+// app.listen(5000, () => console.log('Server running on port 5000'));
+
+
+// ---------------application middleware
+
+// const express = require('express')
+
+// const app = express()
+
+// app.use((req,res,next)=>{
+//     console.log("hello")
+//     next()
+// })
+
+// app.get('/',(req,res)=>{
+//     res.send("home")
+// })
+
+// app.get('/shop',(req,res)=>{
+//     res.send("shop")
+// })
+
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+
+// ----------------------------------------------------
+
+// create an application middleware and display date in server side
+
+// const express = require('express')
+// const app = express()
+
+// app.use((req,res,next)=>{
+//     const date = new Date()
+//     console.log(date.toString()) 
+//     req.body=date
+//     next()
+// })
+
+// app.get('/',(req,res)=>{
+//     res.send(req.body.toLocaleTimeString()) // we can write this as toString(),toLocaleDateString() ,toString().split(' GMT')[0]
+// })
+
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+
+
+
+// -------------------------------router level middleware
+
+
+// ----router.js
+
+// const express = require('express');
+// const router = express.Router();
+
+// // Middleware for all routes in this router
+// router.use((req, res, next) => {
+//     console.log(`Router-level middleware: ${req.method} ${req.url}`);
+//     next();
+// });
+
+// router.get('/', (req, res) => {
+//     res.send('Home');
+// });
+
+// router.get('/settings', (req, res) => {
+//     res.send('Settings');
+// });
+
+// module.exports = router
+
+// ---server.js
+
+// // Router Level middle ware
+
+// const express = require('express')
+// const app = express();
+// const router = require('./router')
+
+// app.use('/', router);
+
+// app.listen(5000, () => console.log('Server running on port 5000'));
+
+
+// ----------------------------------------------dynamic routing
+// This is route chaining using app.route(), which allows
+// handling multiple HTTP methods for a single route in Express.
+
+// Route chaining (method chaining) using app.route()
+
+// What it is NOT
+
+// ❌ Not router chaining
+// ❌ Not dynamic routing
+// ❌ Not middleware chaining
+
+
+// const express = require('express')
+// const app = express()
+
+// app.route('/user')
+// .get((req,res)=>{
+//     res.send("get userdetails")
+// })
+// .post((req,res)=>{
+//     res.send("post user details")
+// })
+// .put((req,res)=>{
+//     res.send("editing user details")
+// })
+// .patch((req,res)=>{
+//     res.send("partially editing user details")
+// })
+// .delete((req,res)=>{
+//     res.send("deleting user details")
+// })
+
+// app.listen(5000,()=>{
+//     console.log("server is running ")
+// })
+
+
+
+// -------------------------------------------router.all----------------------------------------------
+
+// router.all() handles ALL HTTP methods (GET, POST, PUT, PATCH, DELETE, etc.) for a specific route.
+
+// -------------------------------------------router chanining----------------------------------------------
+
+// ❌ Don’t say:
+
+// “This is router chaining”
+
+// ✅ Say this instead:
+
+// “This is route chaining implemented on an Express Router.”  
+
+// or 
+// “Method chaining using router.route().”
+
+
+//server.js 
+
+// const express = require('express')
+// const app = express()
+// const router = require('./router')
+
+// app.use('/',router)
+
+// app.listen(5000,()=>{
+//   console.log("server is running")
+// })
+
+// ----router.js
+
+// const express = require('express')
+// const router = express.Router()
+
+// router.route('/home')
+// .get((req,res)=>{
+//     res.send("get user")
+// })
+// .post((req,res)=>{
+//     res.send("create user")
+// })
+// .put((req,res)=>{
+//     res.send("Update request")
+// })
+// .delete((req,res)=>{
+//     res.send("delete user")
+// })
+// module.exports = router
+
+
+// ------------------------------query parms and path params
+
+
+// const express = require('express')
+
+// const app = express()
+
+
+
+// path params
+// GET /users/123
+
+// app.get('/user/:id',(req,res)=>{
+//     const userId = req.params.id
+//     res.send(userId)
+
+// })
+
+
+// query parms 
+// GET /search?name=gopike&age=2
+
+// app.get('/user',(req,res)=>{
+//     const name = req.query.name
+//     const age = req.query.age
+//     res.send(`my name is ${name},age ${age}`)
+// })
+
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+
+
+// --------------------query + path parms
+
+
+// const express = require('express')
+
+// const app = express()
+
+
+// GET /search/details?name=gopike&age=2
+
+// app.get('/user/:type',(req,res)=>{
+//     const name = req.query.name
+//     const age = req.query.age
+//     const type = req.params.type
+//     res.send(`my name is ${name} , age : ${age}  type of data is ${type}`)
+// })
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+
+
+// ---------------------------------add two numbers using query path params 
+
+// const express = require('express')
+
+// const app = express()
+
+// app.get('/home/:num1',(req,res)=>{
+
+//     const num1 = Number(req.params.num1)
+//     const num2 = Number(req.query.num2)
+
+//     let result = num1+num2
+
+//     res.send(`the result is ${result}`)
+    
+// })
+
+
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+// ----------------------------------------------
+// the above same path query but you have to write the ans in a seprate file
+
+// const express = require('express')
+// const fs = require('fs')
+
+// const app = express()
+
+// app.get('/home/:num1',(req,res)=>{
+//     const num1 = Number(req.params.num1)
+//     const num2 = Number(req.query.num2)
+//     let result = num1+num2
+//     let text = `result is ${result}`
+//     fs.writeFile("ans.txt",text,()=>{
+//         console.log("filewritern")
+//         res.send(`the result is ${result}`)
+//     })
+
+    
+// })
+
+
+
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+// --------------------------------fs modules
+
+// const fs = require('fs');
+
+
+// // Write a File
+// fs.writeFile('output.txt', 'I am gopika dileep',() => {
+//     console.log('writed file.')
+// })
+
+// // Read File 
+// fs.readFile('./output.txt', 'utf-8', (err, data) => {
+//     console.log(data)
+// })
+
+// // Append File
+// fs.appendFile('./output.txt', ' iam very buetifull', () => {
+//     console.log('appended success')
+// })
+
+// // Rename File
+// fs.rename('./output.txt', 'reOutPut.txt', () => {
+//     console.log("Renamed succes")
+// })
+
+// // Delete File
+// fs.unlink('./toDelet.txt', () => {
+//     console.log("deleted success")
+// })
+
+// // Check file stats
+// fs.stat('./reOutPut.txt', (err, data) => {
+//     console.log(data.size)
+// })
+
+
+// ----folder
+
+// const fs = require('fs');
+
+// // Make folder 
+// fs.mkdir('Shamand', () => {
+//     console.log("Created Success")
+// });
+
+// // Rename Folder 
+// fs.rename('Shamand', 'Gopika', () => {
+//     console.log("Renamed success")
+// })
+
+// // Remove Folder
+// fs.rmdir('Gopika', () => {
+//     console.log('remove success...');
+// })
+
+
+// --------------piping
+
+// // Pinping
+// const fs = require('fs');
+
+// const readStream = fs.createReadStream('./input.txt');
+// const writeStream = fs.createWriteStream('./output.txt');
+
+// readStream.pipe(writeStream);
+// console.log('completed')
+
+
+
+
+// -------------------------------------------------Save data todatabase
+
+// app.post('/users', async (req, res) => {
+//   try {
+//     const user = new User(req.body)
+//     await user.save()
+//     res.status(201).send(user)
+//   } catch (err) {
+//     res.status(400).send(err)
+//   }
+// })
+
+
+// -----------------------------------------------how to connect mongodb
+
+
+// -------------------------------------------------
+
+// app.post("/users", async (req, res) => {
+//   try {
+//     const user = new User(req.body);  // take JSON body
+//     await user.save();                // save to MongoDB
+//     res.status(201).send(user);       // respond with saved user
+//   } catch (err) {
+//     res.status(400).send({ error: err.message });
+//   }
+// });
+
+
+// -------------------------------------------connect mongodb ,save user,createschema
+// this is not working . working in the sence means it will work but the post request will not work and the data will not get saved
+// the actual code is given below 
+
+// server.js
+// const express = require("express")
+
+// const app = express()
+
+// const mongoose = require('mongoose')
+
+// mongoose.connect('mongodb://127.0.0.1:27017/study')
+// .then(()=>console.log("DB connected"))
+// .catch((err)=>console.log(err))
+
+// app.post('/user',(req,res)=>{
+//     try{
+//         const user = new User({
+//         name:req.body.name,
+//         age :req.body.age
+//     })
+//     user.save()
+//     res.status(201).send(user)
+//     }catch(err){
+//         res.status(400).send(err)
+//     }
+// })
+
+// user.js (schema)
+
+// const { default: mongoose } = require("mongoose");
+
+// const userSchema = new mongoose.Schema({
+//     name:String,
+//     age:Number,
+//     email:string
+// })
+
+// const User = mongoose.model("User",userSchema)
+
+
+
+// -------------------------------------practical working level
+
+// server.js
+
+// const express = require('express')
+// const app = express()
+// const mongoose = require('mongoose')
+// const User = require('./user')
+
+
+
+// mongoose.connect('mongodb://127.0.0.1:27017/study')
+// .then(()=>console.log("db connected"))
+// .catch((err)=>console.error(err))
+
+// app.use(express.json())
+// app.use(express.urlencoded({extended:true}))
+
+// app.post('/user',async(req,res)=>{
+//     try{
+//         const user = new User(req.body)
+//         await user.save()
+//         res.status(201).send(user)
+//     }catch(err){
+//         res.status(400).send(err)
+//     }
+// })
+
+// app.listen(5000,()=>{
+//     console.log("server is running")
+// })
+
+// user.js
+// const mongoose = require("mongoose")
+// const userSchema = new mongoose.Schema({
+//     name:String,
+//     age:Number,
+//     email:String
+// })
+
+// const User = mongoose.model("User",userSchema)
+
+// module.exports = User
+
+// ----------------------------------------child process----------------------------
+
+// ---------------------spawn ---------------------
+
+
+// const { spawn } = require('child_process');
+
+// // On Windows, run 'dir' using cmd
+// const dir = spawn('cmd', ['/c', 'dir']); // '/c' tells cmd to run the command
+
+// dir.stdout.on('data', data => console.log(`Output:\n${data}`));
+// dir.stderr.on('data', data => console.error(`Error:\n${data}`));
+// dir.on('close', code => console.log(`Child process exited with code ${code}`));
+
+
+// ---------------------------fork---------------
+
+// ------server.js
+
+// const { fork } = require('child_process');
+
+// const child = fork('child.js'); // child.js must exist
+
+// child.on('message', msg => console.log('From child:', msg));
+// child.send({ task: 'say hello' });
+
+
+// ----child.js
+
+// process.on('message', msg => {
+//     console.log('Child received:', msg);
+//     process.send({ reply: 'Hello from child!' });
+// });
+
+
+// ------------------------------exec-----------------------
+
+// const { exec } = require('child_process');
+
+// // Run 'dir' on Windows using shell
+// exec('dir', (error, stdout, stderr) => {
+//     if (error) {
+//         console.error(`Error: ${error.message}`);
+//         return;
+//     }
+//     if (stderr) {
+//         console.error(`Stderr: ${stderr}`);
+//         return;
+//     }
+//     console.log(`Output:\n${stdout}`);
+// });
+
+
+
+// ----------------------------execFile---------------------
+
+// -----server.js
+
+// const { execFile } = require('child_process');
+
+// // Run a Node.js script directly
+// execFile('node', ['child.js'], (error, stdout, stderr) => {
+//     if (error) {
+//         console.error(`Error: ${error.message}`);
+//         return;
+//     }
+//     if (stderr) {
+//         console.error(`Stderr: ${stderr}`);
+//         return;
+//     }
+//     console.log(`Output:\n${stdout}`);
+// });
+
+
+// ----child.js
+
+// console.log("Hello from child.js!");   // This goes to stdout
+// console.error("This is an error message"); // This goes to stderr
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------worker threads----------------------------------------------
+
+// server.js
+
+// main.js
+// const { Worker } = require('worker_threads');
+
+// function runWorker(path, workerData) {
+//   return new Promise((resolve, reject) => {
+//     const worker = new Worker(path, { workerData });
+    
+//     worker.on('message', resolve); // receives data from worker
+//     worker.on('error', reject);    // catches errors in worker
+//     worker.on('exit', (code) => {
+//       if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`));
+//     });
+//   });
+// }
+
+// (async () => {
+//   const result = await runWorker('./worker.js', { num: 42 });
+//   console.log('Result from worker:', result);
+// })();
+
+
+
+// worker.js
+
+// const { parentPort, workerData } = require('worker_threads');
+
+// function heavyComputation(num) {
+//   // example CPU-intensive task
+//   let sum = 0;
+//   for (let i = 0; i < 1e8; i++) {
+//     sum += i * num;
+//   }
+//   return sum;
+// }
+
+// const result = heavyComputation(workerData.num);
+// parentPort.postMessage(result); // send result back to main thread
+
+
+
+// ----------------------------promise with fs 
+
+
+
+
+
+
+
+
+//---------------------------------------------------- custom event emitter-for error handling
+
+
+// const EventEmitter = require('events');
+
+// class ErrorHandler extends EventEmitter {
+//   constructor() {
+//     super();
+//   }
+
+//   // Method to emit an error event
+//   handleError(error) {
+//     this.emit('errorEvent', error);
+//   }
+// }
+
+// // Create an instance
+// const errorHandler = new ErrorHandler();
+
+// // Subscribe to error events
+// errorHandler.on('errorEvent', (err) => {
+//   console.error('Custom Error Caught:', err.message);
+//   // You can add more actions here, like logging to a file or sending an alert
+// });
+
+// // Simulate an error
+// try {
+//   throw new Error('Something went wrong!');
+// } catch (err) {
+//   errorHandler.handleError(err);
+// }
+
+
+
+
+// --------------------------------------------------spawn --------------------------------------
+
+
+// -------------sample.txt
+// Hello! This is a sample file.
+// Child process is reading this.
+
+// -----readFile.js
+// const fs = require("fs");
+
+// // const fileName = process.argv[2]; // get file name from parent
+
+// fs.readFile("sample.txt", "utf8", (err, data) => {
+//   if (err) {
+//     console.error("Error reading file:", err.message);
+//     process.exit(1);
+//   }
+//   // Send file content to parent via stdout
+//   console.log(data);
+// });
+
+
+// ----server.js
+
+// const { spawn } = require("child_process");
+
+// // Spawn a child process to run readFile.js
+// const child = spawn("node", ["readFile.js"]);
+
+// child.stdout.on("data", (data) => {
+//   console.log("File content received from child:");
+//   console.log(data.toString());
+// });
+
+// child.stderr.on("data", (data) => {
+//   console.log("Error from child:", data.toString());
+// });
+
+// child.on("close", (code) => {
+//   console.log(`Child process finished with code ${code}`);
+// });
+
+
+
+
+// -----------------------------------------fork
+
+
+// parent.js
+// const { fork } = require("child_process");
+
+// // Create a child process that runs child.js
+// const child = fork("child.js");
+
+// // Send a message to the child
+// child.send({ message: "start", number: 10 });
+
+// // Receive a message from the child
+// child.on("message", (data) => {
+//   console.log("Message from child:", data);
+// });
+
+
+// child.js
+
+// // Listen to messages from parent
+// process.on("message", (data) => {
+//   console.log("Message from parent:", data);
+
+//   // Example: perform a small task
+//   let result = data.number * 5;
+
+//   // Send result back to parent
+//   process.send({ status: "done", result });
+// });
+
+
+// -----------------------------------------------------------exec
+
+// const { exec } = require("child_process");
+
+// exec("dir", (error, stdout, stderr) => {
+//   if (error) {
+//     console.log("Error:", error.message);
+//     return;
+//   }
+
+//   if (stderr) {
+//     console.log("Stderr:", stderr);
+//     return;
+//   }
+
+//   console.log("Output:");
+//   console.log(stdout);
+// });
+
+// -------------------------------------------execfile
+
+
+// // runChild.js
+// const { execFile } = require("child_process");
+
+// // Run child.js using execFile
+// execFile("node", ["child.js"], (error, stdout, stderr) => {
+//   if (error) {
+//     console.error("Error:", error.message);
+//     return;
+//   }
+
+//   if (stderr) {
+//     console.error("Stderr:", stderr);
+//     return;
+//   }
+
+//   console.log("Output from child.js:");
+//   console.log(stdout);
+// });
+
+// ------child.js
+// console.log("Hello from child.js!");
+// console.log("This message is from the child process.");
