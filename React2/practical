@@ -818,8 +818,28 @@
 // export default App
 
 
+//-----------------------------------
+
+function useToggle(initialValue = false) {
+  const [value, setValue] = useState(initialValue);
+
+  const toggle = useCallback(() => {
+    setValue(currentValue => !currentValue);
+  }, []); 
+
+  return [value, toggle];
+}
+
+export default useToggle;
 
 
+
+//app.jsx
+const [isVisible, toggleVisibility] = useToggle(true);
+
+<button onClick={toggleVisibility}>
+        {isVisible ? 'Hide Message' : 'Show Message'}
+      </button>
 
 
 
