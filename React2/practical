@@ -2188,3 +2188,45 @@ function App(){
 
 export default App
 
+
+//-----------------------------------------------price adding
+
+import { useEffect, useState } from "react"
+
+function App(){
+
+    const [products, setProducts] = useState([])
+    const [total, setTotal] = useState(0)
+
+    useEffect(()=>{
+        fetch("https://fakestoreapi.com/products")
+        .then(res => res.json())
+        .then(data => setProducts(data))
+        .catch(err => console.log(err))
+    },[])
+
+    function addPrice(price){
+        setTotal(prevTotal => prevTotal + price)
+    }
+
+    return(
+        <>
+        <h2>Total Price: ${total}</h2>
+
+        <ul>
+            {products.map((product)=>(
+                <li key={product.id}>
+                    {product.title} - ${product.price}
+                    
+                    <button onClick={()=>addPrice(product.price)}>
+                        Add Price
+                    </button>
+                </li>
+            ))}
+        </ul>
+
+        </>
+    )
+}
+
+export default App
