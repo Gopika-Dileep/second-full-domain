@@ -2137,5 +2137,54 @@ const [isVisible, toggleVisibility] = useToggle(true);
 
 
 
+//-------------------------------------------add to cart
 
+// list products then gie a button add to cart while clicking that button it should added to cart 
+
+import { useEffect, useState } from "react"
+
+function App(){
+
+    const [products, setProducts] = useState([])
+    const [cart, setCart] = useState([])
+
+    useEffect(()=>{
+        fetch("https://fakestoreapi.com/products")
+        .then(res => res.json())
+        .then(data => setProducts(data))
+        .catch(err => console.log(err))
+    },[])
+
+    function addToCart(product){
+        setCart([...cart, product])
+    }
+
+    return(
+        <>
+        <h2>Products</h2>
+
+        <ul>
+            {products.map((product)=>(
+                <li key={product.id}>
+                    {product.title}
+                    <button onClick={()=>addToCart(product)}>
+                        Add to Cart
+                    </button>
+                </li>
+            ))}
+        </ul>
+
+        <h2>Cart</h2>
+
+        <ul>
+            {cart.map((item,index)=>(
+                <li key={index}>{item.title}</li>
+            ))}
+        </ul>
+
+        </>
+    )
+}
+
+export default App
 
