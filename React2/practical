@@ -608,6 +608,48 @@
 // export default App
 
 
+// ------------------------------------------stopwatch using useEffect -----------------------------------------------
+
+// import { useEffect, useState } from "react"
+
+
+// function App(){
+//     const [time,setTime] = useState(0)
+//     const [running,setRunning] = useState(false)
+
+//     useEffect(()=>{
+//         let interval 
+//         if(running){
+//             interval = setInterval(()=>{
+//                 setTime(prev=>prev+1)
+//             },1000)
+//         }
+
+//         return ()=>clearInterval(interval)
+//     },[running])
+
+//     function start(){
+//         setRunning(true)
+//     }
+
+//     function stop(){
+//         setRunning(false)
+//     }
+
+//     return (
+//         <>
+//         <p>time:{time}</p>
+//         <button onClick={start}>start</button>
+//         <button onClick={stop}>stop</button>
+//         </>
+//     )
+
+// }
+
+// export default App
+
+
+
 
 // ----------------------------useref-------------------------
 
